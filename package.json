@@ -1,8 +1,37 @@
 {
-  "scripts": {
-    "test": "ava"
+  "name": "cowtest",
+  "version": "0.0.1",
+  "description": "Complete Website Tester",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tmos/cowtest.git"
+  },
+  "author": "Tom Canac <contact@tomcanac.com> (http://tomcanac.com)",
+  "scripts": {
+    "test": "ava",
+    "build": "babel src --out-dir build",
+    "clean": "rm -rf build",
+    "lint": "eslint src"
+  },
+  "dependencies": {},
   "devDependencies": {
-    "ava": "^0.18.2"
-  }
+    "ava": "^0.18.2",
+    "babel-cli": "^6.23.0",
+    "babel-core": "^6.1.21",
+    "babel-eslint": "^4.1.5",
+    "babel-preset-es2015": "^6.1.18",
+    "crawler": "^1.0.3",
+    "eslint": "^1.9.0",
+    "eslint-config-airbnb": "^1.0.0",
+    "eslint-plugin-react": "^3.10.0"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tmos/cowtest/issues"
+  },
+  "homepage": "https://github.com/tmos/cowtest#readme"
 }
