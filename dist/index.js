@@ -1,8 +1,9 @@
 #!/usr/bin/env node
+'use strict';
 
-const configFile = require('../cowtestconf');
-const crawler = require('./crawl');
-const testRunner = require('./test_runner');
+var configFile = require('../cowtestconf');
+var crawler = require('./crawl');
+var testRunner = require('./test_runner');
 
 // Crawl and save
 crawler.default(configFile.seed_url, configFile.db_name);
