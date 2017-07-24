@@ -17,17 +17,24 @@
     "watch": "gulp",
     "clean": "rm -rf build",
     "lint": "./node_modules/.bin/eslint src",
-    "lint-fix": "./node_modules/.bin/eslint src --fix"
+    "lint-fix": "./node_modules/.bin/eslint src --fix",
+    "prepublish": "npm run build",
+    "flow": "flow"
   },
-  "dependencies": {},
+  "dependencies": {
+    "mongojs": "^2.4.0",
+    "simplecrawler": "^1.1.4"
+  },
   "devDependencies": {
-    "babel-cli": "^6.23.0",
+    "babel-cli": "^6.24.1",
     "babel-core": "^6.1.21",
     "babel-eslint": "^7.2.3",
     "babel-preset-es2015": "^6.1.18",
+    "babel-preset-flow": "^6.23.0",
     "eslint": "^4.3.0",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.7.0",
+    "flow-bin": "^0.51.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2"
   },
