@@ -1,4 +1,5 @@
 module.exports = {
-    seed_url: "http://example.org",
-    db_name: "cowtest",
-}
+  seedUrl: 'http://example.org',
+  collectionName: 'examplent',
+  dbName: 'cowtest',
+};

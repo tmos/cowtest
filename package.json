@@ -15,15 +15,25 @@
     "test": "",
     "build": "gulp build",
     "watch": "gulp",
-    "clean": "rm -rf build",
+    "clean": "rm -rf dist/*",
     "lint": "./node_modules/.bin/eslint src",
     "lint-fix": "./node_modules/.bin/eslint src --fix",
     "prepublish": "npm run build",
-    "flow": "flow"
+    "flow": "flow",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "dependencies": {
-    "mongojs": "^2.4.0",
-    "simplecrawler": "^1.1.4"
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.0",
+    "gulp-eslint": "^4.0.0",
+    "gulp-plumber": "^1.1.0",
+    "mongodb": "^2.2.31"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -34,9 +44,9 @@
     "eslint": "^4.3.0",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.7.0",
-    "flow-bin": "^0.51.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2"
+    "flow-bin": "^0.53.1",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.0.4"
   },
   "license": "ISC",
   "bugs": {

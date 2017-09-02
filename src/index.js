@@ -1,13 +1,34 @@
-#!/usr/bin/env node
+import { MongoClient } from 'mongodb';
 
-const configFile = require('../cowtestconf');
-const crawler = require('./crawl');
-const testRunner = require('./test_runner');
+import configFile from './../cowtestconf';
+import Crawler from './crawl';
+import TestRunner from './testRunner';
+// import Reporter from './reporter';
 
-// Crawl and save
-crawler.default(configFile.seed_url, configFile.db_name);
+const { seedUrl, collectionName } = configFile;
+const dbString = 'mongodb://127.0.0.1:27017/cowtest';
 
-// Analyse the data
-// testRunner.default(configFile.seed_url, configFile.db_name);
+console.log('=== Cowtest : START');
 
-// Report
+MongoClient.connect(dbString)
+  .then((db) => {
+    console.log('=== Cowtest : DB CONNECTED');
+    return db.createCollection(collectionName);
+  })
+  .then((collection) => {
+    new Crawler()
+      .crawl(collection, seedUrl);
+
+    return collection;
+  })
+  .then((collection) => {
+    new TestRunner()
+      .init(collection);
+
+    return collection;
+  })
+  .catch((err) => {
+    console.log(err);
+    process.exit(1);
+  });
+
