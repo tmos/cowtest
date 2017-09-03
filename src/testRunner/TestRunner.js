@@ -2,18 +2,17 @@
  *
  */
 
-class TestRunner {
-  constructor() {
-    this.pages = [];
-  }
+function TestRunner(collection) {
+  return new Promise((resolve, reject) => {
+    collection.find({}).toArray((err, docs) => {
+      if (err) {
+        reject(err);
+      }
 
-  init(collection) {
-    collection.find((err, docs) => {
-      this.pages = docs;
-      docs.map(el => console.log(el));
-      return docs;
+      console.log(docs);
+      resolve(collection);
     });
-  }
+  });
 }
 
 export default TestRunner;

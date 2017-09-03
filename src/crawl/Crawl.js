@@ -3,29 +3,25 @@
  */
 
 
-class Page {
-  constructor(url) {
-    this.url = url;
-  }
+function Page(url) {
+  return {
+    url,
+    runnedTests: [],
+    passedTests: [],
+    failledTests: [],
+  };
 }
 
-class Crawler {
-  constructor() {
-    this.pages = [];
-  }
+function Crawler(collection, url) {
+  const pgs = [];
 
-  crawl(collection, url) {
-    const pgs = [];
+  // Crawl start
+  pgs.push(new Page(url));
 
-    // Crawl start
-    pgs.push(new Page(url));
-    // Crawl end
+  // Save
+  collection.insert(pgs);
 
-    collection.insert(pgs);
-
-    this.pages = pgs;
-    return pgs;
-  }
+  return collection;
 }
 
 

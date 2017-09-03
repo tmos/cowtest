@@ -2,19 +2,17 @@
  *
  */
 
-class Reporter {
-  constructor() {
-    this.reporter = {};
-  }
+function Reporter(collection) {
+  return new Promise((resolve, reject) => {
+    collection.find({}).toArray((err, docs) => {
+      if (err) {
+        reject(err);
+      }
 
-  report(collection) {
-    collection.find((err, docs) => {
       console.log(docs);
-      this.reporter.test1 = false;
-
-      return this.reporter;
+      resolve(collection);
     });
-  }
+  });
 }
 
 export default Reporter;
