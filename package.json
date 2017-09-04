@@ -33,7 +33,9 @@
     "gulp-babel": "^7.0.0",
     "gulp-eslint": "^4.0.0",
     "gulp-plumber": "^1.1.0",
-    "mongodb": "^2.2.31"
+    "mongodb": "^2.2.31",
+    "nightmare": "^2.10.0",
+    "phantomjs": "^2.1.7"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

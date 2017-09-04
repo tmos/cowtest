@@ -4,14 +4,13 @@
 
 function Reporter(collection) {
   return new Promise((resolve, reject) => {
-    collection.find({}).toArray((err, docs) => {
-      if (err) {
+    collection.find({ runnedTests: { $gt: 0 } }).toArray()
+      .then((docs) => {
+        resolve(docs);
+      })
+      .catch((err) => {
         reject(err);
-      }
-
-      console.log(docs);
-      resolve(collection);
-    });
+      });
   });
 }
 
