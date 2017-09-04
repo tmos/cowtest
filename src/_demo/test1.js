@@ -10,9 +10,16 @@ export default function (url) {
     .goto(url)
     // simulate typing into an element identified by a CSS selector
     // here, Nightmare is typing into the search bar
-    // eslint-disable-next-line no-undef
-    .evaluate(() => document.title)
-    // end the Nightmare instance along with the Electron instance it wraps
+    .evaluate(() => {
+      // eslint-disable-next-line no-undef
+      assert.equal(document.title, 'test');
+      return nightmare;
+    }).evaluate(() => {
+      // eslint-disable-next-line no-undef
+      assert.equal(document.title, 'Example Domain');
+      return nightmare;
+    })
+    // end the Nightmare instance along with the Electron instance it) wraps
     .end()
     // run the queue of commands specified, followed by logging the HREF
     .then((result) => {
