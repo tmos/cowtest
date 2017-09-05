@@ -1,8 +1,9 @@
 import Nightmare from 'nightmare';
 
-const nightmare = Nightmare({
-  show: true,
-});
+const nightmare = Nightmare();
+
+
+// GO AVA GO
 
 export default function (url) {
   return new Promise((resolve, reject) => nightmare
@@ -31,4 +32,3 @@ export default function (url) {
       reject(`an error has occurred: ${error}`);
     }));
 }
-

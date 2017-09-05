@@ -8,4 +8,4 @@ Complete Website Tester
 - [ ] Utilitaire de log simple et efficace
 - [x] Permettre au test de se lancer seul
     - [ ] Ajouter la couche connecteur
-    - Ajouter le support d'assertion
+    - [ ] Ajouter le support d'assertion
