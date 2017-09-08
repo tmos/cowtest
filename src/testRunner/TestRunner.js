@@ -9,11 +9,11 @@ function TestRunner(collection, tests) {
         reject(err);
       }
 
-      sl.info(`[${__filename}] Get saved Data`);
+      sl.info('Get saved Data');
 
       return tests(docs[0].url)
         .then((data) => {
-          sl.info(`\n --> [${__filename}] Test runned !!!!!`);
+          sl.info(`\n --> [${__filename}] Test runned !`);
           sl.info(data);
           resolve(data);
         })
