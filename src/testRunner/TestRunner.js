@@ -8,13 +8,6 @@ function TestRunner(collection, tests) {
         return reject(err);
       }
 
-      tests(docs[0].url)
-        .then((data) => {
-          console.log(data);
-          return resolve(data);
-        })
-        .catch(oops => reject(oops));
-
       const testPromises = docs.map(doc => tests(doc.url));
 
       const res = await Promise.all(testPromises)
