@@ -10,8 +10,8 @@ export default function (url) {
       .evaluate(() => document.title, 'test');
 
     if (!pageTitle) {
-      reject();
+      return reject();
     }
-    resolve(pageTitle === 'Example Domain');
+    return resolve(pageTitle === 'Example Domain');
   });
 }

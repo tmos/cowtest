@@ -1,23 +1,34 @@
-import Sweetlog from '../../sweetlog';
-
-const sl = new Sweetlog();
 
 function TestRunner(collection, tests) {
   return new Promise((resolve, reject) => {
-    collection.find({}).toArray((err, docs) => {
+    collection.find({}).toArray(async (err, docs) => {
       if (err) {
-        reject(err);
+        console.log('ERREUR', __filename);
+        console.log(err);
+        return reject(err);
       }
 
-      sl.info('Get saved Data');
-
-      return tests(docs[0].url)
+      tests(docs[0].url)
         .then((data) => {
-          sl.info(`\n --> [${__filename}] Test runned !`);
-          sl.info(data);
-          resolve(data);
+          console.log(data);
+          return resolve(data);
         })
         .catch(oops => reject(oops));
+
+      const testPromises = docs.map(doc => tests(doc.url));
+
+      const res = await Promise.all(testPromises)
+        .then((values) => {
+          console.log(values);
+          return resolve(values);
+        })
+        .catch((error) => {
+          console.log('ERREUR: dans la liste de promises');
+          return reject(error);
+        });
+
+      console.log(res);
+      return resolve(res);
     });
   });
 }
