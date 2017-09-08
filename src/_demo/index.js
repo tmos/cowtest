@@ -12,6 +12,7 @@ MongoClient.connect(dbString)
   .then(db => db.createCollection(collectionName))
   .then(collection => Crawler(collection, seedUrl))
   .then(collection => TestRunner(collection, tests))
+  .then(console.log)
   .then(() => {
     slog.info('=== END cowtest');
     process.exit(0);
