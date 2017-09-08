@@ -2,22 +2,15 @@ import Nightmare from 'nightmare';
 
 const nightmare = Nightmare();
 
-
-// GO AVA GO
-
 export default function (url) {
   return new Promise((resolve, reject) => nightmare
-    // load a url
+  // load a url
     .goto(url)
     // simulate typing into an element identified by a CSS selector
     // here, Nightmare is typing into the search bar
     .evaluate(() => {
       // eslint-disable-next-line no-undef
-      assert.equal(document.title, 'test');
-      return nightmare;
-    }).evaluate(() => {
-      // eslint-disable-next-line no-undef
-      assert.equal(document.title, 'Example Domain');
+      console.log(document.title, 'test');
       return nightmare;
     })
     // end the Nightmare instance along with the Electron instance it) wraps

@@ -1,3 +1,3 @@
-import Nightmare from './nightmarejs';
+import CowtestNightmarejsConnector from './CowtestAvaConnector';
 
-export default Nightmare;
+export default CowtestNightmarejsConnector;

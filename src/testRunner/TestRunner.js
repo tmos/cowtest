@@ -1,6 +1,6 @@
-/**
- *
- */
+import Sweetlog from '../../sweetlog';
+
+const sl = new Sweetlog();
 
 function TestRunner(collection, tests) {
   return new Promise((resolve, reject) => {
@@ -9,15 +9,12 @@ function TestRunner(collection, tests) {
         reject(err);
       }
 
-      console.log(`\n --> [${__filename}] Get saved Data`);
-      console.log(docs);
-
-      console.log(`\n --> [${__filename}] Tests`);
+      sl.info(`[${__filename}] Get saved Data`);
 
       return tests(docs[0].url)
         .then((data) => {
-          console.log(`\n --> [${__filename}] Test runned !!!!!`);
-          console.log(data);
+          sl.info(`\n --> [${__filename}] Test runned !!!!!`);
+          sl.info(data);
           resolve(data);
         })
         .catch(oops => reject(oops));
