@@ -13,8 +13,7 @@ function TestRunner(collection, tests) {
         return Promise.all(testPromises)
           .then(values => resolve(values))
           .catch(error => reject(error));
-      })
-      .catch(err => err);
+      });
   });
 }
 
