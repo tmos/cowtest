@@ -1,4 +1,4 @@
-import { crawler as C } from 'crawler';
+import dandyCrawl from 'dandy-crawl';
 
 function Page(url) {
   return {
@@ -10,37 +10,13 @@ function Page(url) {
 }
 
 function Crawler(collection, url) {
-  const pgs = [];
-  pgs.push(new Page(url));
-
-  const c = new C({
-    maxConnections: 10,
-    // This will be called for each crawled page
-    callback(error, res, done) {
-      if (error) {
-        console.log(error);
-      } else {
-        const $ = res.$;
-        // $ is Cheerio by default
-        // a lean implementation of core jQuery designed specifically for the server
-        const pageUrls = $('a').map(a => a.attr('href'));
-        console.log(pageUrls);
-      }
-      done();
-    },
+  return new Promise((resolve, reject) => {
+    dandyCrawl.exploreDomain(url)
+      .then(data => data.nodes.values.map(node => new Page(node.url)))
+      .then(pages => collection.insert(pages))
+      .then(() => resolve(collection))
+      .catch(err => reject(err));
   });
-
-  c.queue(url);
-  c.run();
-
-  // Crawl start
-  pgs.push(new Page(url));
-
-  // Save
-  collection.insert(pgs);
-
-  return collection;
 }
-
 
 export default Crawler;

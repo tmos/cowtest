@@ -1,4 +1,4 @@
-const seedUrl = 'https://www.test.com/gulp';
+const seedUrl = 'http://svay.com/';
 const collectionName = 'examplent';
 const dbName = 'cowtest';
 

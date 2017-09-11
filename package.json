@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "ava": "^0.22.0",
-    "crawler": "^1.0.5",
+    "dandy-crawl": "^0.1.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.0",
     "gulp-eslint": "^4.0.0",
