@@ -1,4 +1,4 @@
-import dandyCrawl from 'dandy-crawl';
+import DandyCrawl from 'dandy-crawl';
 
 function Page(url) {
   return {
@@ -10,8 +10,9 @@ function Page(url) {
 }
 
 function Crawler(collection, url) {
+  const crawl = new DandyCrawl(url);
   return new Promise((resolve, reject) => {
-    dandyCrawl.exploreDomain(url)
+    crawl.exploreDomain()
       .then(data => data.nodes.values.map(node => new Page(node.url)))
       .then(pages => collection.insert(pages))
       .then(() => resolve(collection))

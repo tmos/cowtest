@@ -1,5 +1,5 @@
-const seedUrl = 'http://svay.com/';
-const collectionName = 'examplent';
-const dbName = 'cowtest';
+const conf = {
+  seedUrl: 'http://127.0.0.1:8080',
+};
 
-export { seedUrl, collectionName, dbName };
+export default conf;
