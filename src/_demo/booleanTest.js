@@ -2,6 +2,7 @@ import Nightmare from 'nightmare';
 
 export default function (url) {
   return new Promise(async (resolve, reject) => {
+    console.log('Bool');
     const nightmare = Nightmare();
 
     const pageTitle = await nightmare

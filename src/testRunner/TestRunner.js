@@ -11,7 +11,10 @@ function TestRunner(collection, tests) {
         const testPromises = docs.map(doc => tests(doc.url));
 
         return Promise.all(testPromises)
-          .then(values => resolve(values))
+          .then((values) => {
+            console.log(values);
+            resolve(collection);
+          })
           .catch(error => reject(error));
       });
   });

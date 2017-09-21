@@ -1,7 +1,8 @@
 import { MongoClient } from 'mongodb';
 import { Crawler, TestRunner } from './../';
 import conf from './cowtestconf';
-import tests from './test1';
+import booleanTest from './booleanTest';
+import mochaTest from './mochaTest';
 
 const dbString = 'mongodb://127.0.0.1:27017/cowtest';
 
@@ -14,8 +15,8 @@ MongoClient.connect(dbString)
     return collection;
   })
   .then(collection => Crawler(collection, seedUrl))
-  .then(collection => TestRunner(collection, tests))
-  .then(console.log)
+  .then(collection => TestRunner(collection, booleanTest))
+  .then(collection => TestRunner(collection, mochaTest))
   .then(() => {
     process.exit(0);
   })
