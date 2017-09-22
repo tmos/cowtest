@@ -1,5 +1,5 @@
 
-function TestRunner(collection, tests) {
+function TestRunner(collection, connector, testsFileName) {
   return new Promise((resolve, reject) => {
     collection
       .find({})
@@ -8,7 +8,7 @@ function TestRunner(collection, tests) {
           return reject(err);
         }
 
-        const testPromises = docs.map(doc => tests(doc.url));
+        const testPromises = docs.map(doc => connector(testsFileName, doc.url));
 
         return Promise.all(testPromises)
           .then((values) => {

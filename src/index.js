@@ -1,5 +1,5 @@
 import Crawler from './crawl';
-import TestRunner from './testRunner';
+import { CowtestAvaConnector, TestRunner } from './testRunner';
 import Reporter from './reporter';
 
-export { Crawler, TestRunner, Reporter };
+export { Crawler, CowtestAvaConnector, Reporter, TestRunner };

@@ -1,5 +1,4 @@
 import TestRunner from './TestRunner';
-import CowtestNightmareConnector from './connectors/CowtestAvaConnector';
+import CowtestAvaConnector from './connectors/CowtestAvaConnector';
 
-export { CowtestNightmareConnector };
-export default TestRunner;
+export { TestRunner, CowtestAvaConnector };

@@ -2,6 +2,8 @@ const gulp = require('gulp');
 const babel = require('gulp-babel');
 const eslint = require('gulp-eslint');
 const plumber = require('gulp-plumber');
+const sourcemaps = require('gulp-sourcemaps');
+
 
 const path = {
   src: './src',
@@ -18,7 +20,9 @@ gulp.task('lint', () => gulp.src(path.srcJs)
 
 gulp.task('build', () => gulp.src(path.srcJs)
   .pipe(plumber())
+  .pipe(sourcemaps.init())
   .pipe(babel())
+  .pipe(sourcemaps.write('.'))
   .pipe(gulp.dest('dist')));
 
 gulp.task('default', ['build', 'lint'], () => {
