@@ -39,7 +39,9 @@
     "gulp-sourcemaps": "^2.6.1",
     "mocha": "^3.5.3",
     "mongodb": "^2.2.31",
-    "nightmare": "^2.10.0"
+    "nightmare": "^2.10.0",
+    "tap-json": "^1.0.0",
+    "tap-parser": "^6.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

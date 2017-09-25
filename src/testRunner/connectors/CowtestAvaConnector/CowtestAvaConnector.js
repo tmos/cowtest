@@ -1,8 +1,13 @@
 import { spawn } from 'child_process';
+import Parser from 'tap-parser';
 
 function CowtestAvaConnector(testsFileName, url) {
   return new Promise((resolve, reject) => {
-    const res = [];
+    let res;
+
+    const p = new Parser((results) => {
+      res = results;
+    });
 
     const ava = spawn('ava', [testsFileName, '--tap'], {
       env: {
@@ -15,9 +20,7 @@ function CowtestAvaConnector(testsFileName, url) {
       reject(new Error('fail to launch the process'));
     }
 
-    ava.stdout.on('data', (data) => {
-      res.push(data.toString());
-    });
+    ava.stdout.pipe(p);
 
     ava.on('close', () => {
       resolve(res);

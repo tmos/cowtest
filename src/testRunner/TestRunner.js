@@ -1,3 +1,4 @@
+import util from 'util';
 
 function TestRunner(collection, connector, testsFileName) {
   return new Promise((resolve, reject) => {
@@ -12,7 +13,7 @@ function TestRunner(collection, connector, testsFileName) {
 
         return Promise.all(testPromises)
           .then((values) => {
-            console.log(values);
+            console.log(util.inspect(values, false, null));
             resolve(collection);
           })
           .catch(error => reject(error));

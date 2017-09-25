@@ -1,11 +1,13 @@
 import test from 'ava';
-// import DandyCrawl from 'dandy-crawl';
+import Nightmare from 'nightmare';
 
-// const dandee = new DandyCrawl(url);
-console.log(process.env.TEST_URL);
-test('foo', async (t) => {
-  // const data = await dandee.exploreDomain();
-  // const nodes = data.nodes.values;
+test('Page title should be "fake"', async (t) => {
+  const nightmare = Nightmare({ show: true });
 
-  t.is(process.env.TEST_URL, 'fake');
+  const res = await nightmare
+    .goto(process.env.TEST_URL)
+    // eslint-disable-next-line no-undef
+    .evaluate(() => document.title);
+
+  t.is(res, 'fake');
 });
