@@ -23,6 +23,7 @@ function CowtestAvaConnector(testsFileName, url) {
     ava.stdout.pipe(p);
 
     ava.on('close', () => {
+      res.url = url;
       resolve(res);
     });
   });

@@ -1,5 +1,10 @@
 import { MongoClient } from 'mongodb';
-import { Crawler, TestRunner, CowtestAvaConnector } from './../';
+import {
+  Crawler,
+  TestRunner,
+  CowtestAvaConnector,
+  CowtestHtmlReporter,
+} from './../';
 import conf from './cowtestconf';
 
 const avaTest = `${__dirname}/avaTest.js`;
@@ -14,6 +19,7 @@ MongoClient.connect(dbString)
   })
   .then(collection => Crawler(collection, seedUrl))
   .then(collection => TestRunner(collection, CowtestAvaConnector, avaTest))
+  .then(testsResults => CowtestHtmlReporter(seedUrl, testsResults, `${__dirname}/index.html`))
   .then(() => {
     process.exit(0);
   })

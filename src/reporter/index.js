@@ -1,3 +1,4 @@
-import Reporter from './Reporter';
+import CowtestConsoleReporter from './CowtestConsoleReporter';
+import CowtestHtmlReporter from './CowtestHtmlReporter';
 
-export default Reporter;
+export { CowtestHtmlReporter, CowtestConsoleReporter };
