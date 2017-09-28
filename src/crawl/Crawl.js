@@ -9,13 +9,13 @@ function Page(url) {
   };
 }
 
-function Crawler(collection, url) {
+function Crawler(url) {
   const crawl = new DandyCrawl(url);
+
   return new Promise((resolve, reject) => {
     crawl.exploreDomain()
       .then(data => data.nodes.values.map(node => new Page(node.url)))
-      .then(pages => collection.insert(pages))
-      .then(() => resolve(collection))
+      .then(pages => resolve(pages))
       .catch(err => reject(err));
   });
 }

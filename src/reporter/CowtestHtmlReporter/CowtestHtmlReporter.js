@@ -1,5 +1,6 @@
 import fs from 'fs';
 import utils from 'util';
+import opn from 'opn';
 
 function CowtestHtmlReporter(seedUrl, testsResults, outputDir) {
   console.log(outputDir);
@@ -31,6 +32,8 @@ function CowtestHtmlReporter(seedUrl, testsResults, outputDir) {
       if (err) {
         reject(err);
       }
+
+      opn(outputDir);
 
       resolve(true);
     });

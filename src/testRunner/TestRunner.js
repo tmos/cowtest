@@ -1,18 +1,12 @@
-function TestRunner(collection, connector, testsFileName) {
+function TestRunner(urls, connector, testsFileName) {
   return new Promise((resolve, reject) => {
-    collection.find({}).toArray(async (err, docs) => {
-      if (err) {
-        return reject(err);
-      }
+    const testPromises = urls.map(doc => connector(testsFileName, doc.url));
 
-      const testPromises = docs.map(doc => connector(testsFileName, doc.url));
-
-      return Promise.all(testPromises)
-        .then((values) => {
-          resolve(values);
-        })
-        .catch(error => reject(error));
-    });
+    return Promise.all(testPromises)
+      .then((values) => {
+        resolve(values);
+      })
+      .catch(error => reject(error));
   });
 }
 
