@@ -7,5 +7,5 @@ Complete Website Tester
 - [ ] Définir le concept des  connecteurs
 - [ ] Utilitaire de log simple et efficace
 - [x] Permettre au test de se lancer seul
-    - [ ] Ajouter la couche connecteur
-    - [ ] Ajouter le support d'assertion
+    - [x] Ajouter la couche connecteur
+    - [x] Ajouter le support d'assertion
