@@ -9,3 +9,4 @@ Complete Website Tester
 - [x] Permettre au test de se lancer seul
     - [x] Ajouter la couche connecteur
     - [x] Ajouter le support d'assertion
+- [ ] Ecrire une interface pour les Reporters
