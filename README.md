@@ -10,3 +10,5 @@ Complete Website Tester
     - [x] Ajouter la couche connecteur
     - [x] Ajouter le support d'assertion
 - [ ] Ecrire une interface pour les Reporters
+- [ ] Types cowtest
+- [ ] Types dandy crawl
