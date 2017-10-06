@@ -3,7 +3,10 @@ module.exports = {
     "plugins": [
       "flowtype"
     ],
-    "extends": "airbnb-base",
+    "extends": [
+      "airbnb-base",
+      "plugin:flowtype/recommended"
+    ],
     "rules": {
         "no-console": 0
     }

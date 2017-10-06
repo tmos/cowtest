@@ -1,4 +1,6 @@
-function TestRunner(urls, connector, testsFileName) {
+// @flow
+
+function TestRunner(urls: any, connector: any, testsFileName: string): Promise<any> {
   return new Promise((resolve, reject) => {
     const testPromises = urls.map(doc => connector(testsFileName, doc.url));
 

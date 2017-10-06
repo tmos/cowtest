@@ -1,8 +1,13 @@
+// @flow
+
 import fs from 'fs';
-import utils from 'util';
 import opn from 'opn';
 
-function CowtestHtmlReporter(seedUrl, testsResults, outputDir) {
+function CowtestHtmlReporter(
+  seedUrl: string,
+  testsResults: any,
+  outputDir: string,
+): Promise<boolean> {
   console.log(outputDir);
   return new Promise((resolve, reject) => {
     let html = `<h1>${seedUrl}</h1>`;
@@ -24,7 +29,6 @@ function CowtestHtmlReporter(seedUrl, testsResults, outputDir) {
         })
         .join('');
 
-      console.log(utils.inspect(testRes.failures, false, null));
       return testHtml;
     });
 
