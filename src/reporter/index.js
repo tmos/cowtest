@@ -1,12 +1,11 @@
-// @flow
 import CowtestConsoleReporter from './CowtestConsoleReporter';
 import CowtestHtmlReporter from './CowtestHtmlReporter';
 
 function Reporter(
-  seedUrl: string,
-  testsResults: any,
-  reporter: string | ((testsResults: any) => mixed) = 'console',
-): Promise<any> {
+  seedUrl,
+  testsResults,
+  reporter = 'console',
+) {
   return new Promise((resolve, reject) => {
     if (typeof reporter === 'string') {
       switch (reporter) {

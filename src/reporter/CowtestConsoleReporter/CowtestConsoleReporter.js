@@ -1,6 +1,4 @@
-// @flow
-
-function CowtestConsoleReporter(testsResults: any): Promise<boolean> {
+function CowtestConsoleReporter(testsResults) {
   return new Promise((resolve, reject) => {
     if (!testsResults) {
       reject(new Error('No tests results provided'));

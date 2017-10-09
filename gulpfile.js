@@ -3,13 +3,19 @@ const babel = require('gulp-babel');
 const eslint = require('gulp-eslint');
 const plumber = require('gulp-plumber');
 const sourcemaps = require('gulp-sourcemaps');
-
+const prettier = require('gulp-prettier');
 
 const path = {
   src: './src',
   srcJs: './src/**/*.js',
   dist: './dist',
 };
+
+
+gulp.task('pretty', () => gulp.src(path.srcJs)
+  .pipe(plumber())
+  .pipe(prettier())
+  .pipe(gulp.dest('dist')));
 
 gulp.task('lint', () => gulp.src(path.srcJs)
   .pipe(plumber())
@@ -25,6 +31,6 @@ gulp.task('build', () => gulp.src(path.srcJs)
   .pipe(sourcemaps.write('.'))
   .pipe(gulp.dest('dist')));
 
-gulp.task('default', ['build', 'lint'], () => {
-  gulp.watch(path.srcJs, ['lint', 'build']);
+gulp.task('default', ['pretty', 'build', 'lint'], () => {
+  gulp.watch(path.srcJs, ['pretty', 'lint', 'build']);
 });

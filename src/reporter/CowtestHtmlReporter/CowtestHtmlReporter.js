@@ -1,19 +1,17 @@
-// @flow
-
 import fs from 'fs';
 import opn from 'opn';
 
 function CowtestHtmlReporter(
-  seedUrl: string,
-  testsResults: any,
-  outputDir: string,
-): Promise<boolean> {
+  seedUrl,
+  testsResults,
+  outputDir,
+) {
   console.log(outputDir);
   return new Promise((resolve, reject) => {
-    let html: string = `<h1>${seedUrl}</h1>`;
+    let html = `<h1>${seedUrl}</h1>`;
 
-    html += testsResults.map((testRes): string => {
-      let testHtml: string = `<h2>URL: ${testRes.url}</h2>`;
+    html += testsResults.map((testRes) => {
+      let testHtml = `<h2>URL: ${testRes.url}</h2>`;
 
       testHtml += `Passed : ${testRes.pass} / ${testRes.count} <br />`;
       testHtml += `Failed : ${testRes.fail} / ${testRes.count} <br />`;
@@ -21,8 +19,8 @@ function CowtestHtmlReporter(
       testHtml += '<h3>Fail details</h3>';
 
       testHtml += testRes.failures
-        .map((fail): string => {
-          let failuresHtml: string = `${fail.name}`;
+        .map((fail) => {
+          let failuresHtml = `${fail.name}`;
           failuresHtml += `<code>${fail.values}</code>`;
 
           return failuresHtml;
