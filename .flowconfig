@@ -1,0 +1,11 @@
+[ignore]
+
+[include]
+./src/**/*.js
+
+[libs]
+flow-typed/
+
+[options]
+
+[lints]

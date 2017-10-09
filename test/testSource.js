@@ -1,12 +1,10 @@
-// @flow
-
 import test from 'ava';
 import Nightmare from 'nightmare';
 
-test('Page title should be "fake"', async (t): Promise<*> => {
-  const nightmare: any = Nightmare();
+test('Page title should be "fake"', async (t) => {
+  const nightmare = Nightmare();
 
-  const res: string = await nightmare
+  const res = await nightmare
     .goto(process.env.TEST_URL)
     // eslint-disable-next-line no-undef
     .evaluate(() => document.title);

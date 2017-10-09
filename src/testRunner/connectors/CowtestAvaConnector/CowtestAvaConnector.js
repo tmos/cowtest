@@ -1,15 +1,17 @@
+// @flow
+
 import { spawn } from 'child_process';
 import Parser from 'tap-parser';
 
-function CowtestAvaConnector(testsFileName, url) {
-  return new Promise((resolve, reject) => {
-    let res;
+function CowtestAvaConnector(testsFileName: string, url: string): Promise<any> {
+  return new Promise((resolve, reject): any => {
+    let res: any;
 
-    const p = new Parser((results) => {
+    const p: any = new Parser((results) => {
       res = results;
     });
 
-    const ava = spawn('ava', [testsFileName, '--tap'], {
+    const ava: any = spawn('ava', [testsFileName, '--tap'], {
       env: {
         ...process.env,
         TEST_URL: url,

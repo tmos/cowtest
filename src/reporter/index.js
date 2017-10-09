@@ -1,7 +1,12 @@
+// @flow
 import CowtestConsoleReporter from './CowtestConsoleReporter';
 import CowtestHtmlReporter from './CowtestHtmlReporter';
 
-function Reporter(seedUrl, testsResults, reporter = 'console') {
+function Reporter(
+  seedUrl: string,
+  testsResults: any,
+  reporter: string | ((testsResults: any) => mixed) = 'console',
+): Promise<any> {
   return new Promise((resolve, reject) => {
     if (typeof reporter === 'string') {
       switch (reporter) {
@@ -20,8 +25,10 @@ function Reporter(seedUrl, testsResults, reporter = 'console') {
         default:
           reject(new Error('Unknown reporter type.'));
       }
-    } else {
+    } else if (typeof reporter === 'function') {
       resolve(reporter(testsResults));
+    } else {
+      reject(new Error('Unknown reporter type.'));
     }
   });
 }
