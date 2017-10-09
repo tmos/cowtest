@@ -10,10 +10,10 @@ function CowtestHtmlReporter(
 ): Promise<boolean> {
   console.log(outputDir);
   return new Promise((resolve, reject) => {
-    let html = `<h1>${seedUrl}</h1>`;
+    let html: string = `<h1>${seedUrl}</h1>`;
 
-    html += testsResults.map((testRes) => {
-      let testHtml = `<h2>URL: ${testRes.url}</h2>`;
+    html += testsResults.map((testRes): string => {
+      let testHtml: string = `<h2>URL: ${testRes.url}</h2>`;
 
       testHtml += `Passed : ${testRes.pass} / ${testRes.count} <br />`;
       testHtml += `Failed : ${testRes.fail} / ${testRes.count} <br />`;
@@ -21,8 +21,8 @@ function CowtestHtmlReporter(
       testHtml += '<h3>Fail details</h3>';
 
       testHtml += testRes.failures
-        .map((fail) => {
-          let failuresHtml = `${fail.name}`;
+        .map((fail): string => {
+          let failuresHtml: string = `${fail.name}`;
           failuresHtml += `<code>${fail.values}</code>`;
 
           return failuresHtml;

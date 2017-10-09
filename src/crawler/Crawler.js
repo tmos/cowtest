@@ -1,7 +1,8 @@
 // @flow
+
 import DandyCrawl from 'dandy-crawl';
 
-function Page(url: string) {
+function Page(url: string): Page {
   return {
     url,
     runnedTests: [],
@@ -11,13 +12,15 @@ function Page(url: string) {
 }
 
 function Crawler(url: string): Promise<any> {
-  const crawl = new DandyCrawl(url);
+  // todo: create a Crawler type
+  const crawl: any = new DandyCrawl(url);
 
   return new Promise((resolve, reject) => {
-    crawl.exploreDomain()
-      .then(data => data.nodes.values.map(node => new Page(node.url)))
+    crawl
+      .exploreDomain()
+      .then((data): Array<Page> => data.nodes.values.map(node => new Page(node.url)))
       .then(pages => resolve(pages))
-      .catch(err => reject(err));
+      .catch((err): any => reject(err));
   });
 }
 

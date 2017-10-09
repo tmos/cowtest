@@ -1,19 +1,13 @@
 // @flow
-import Crawler from './crawl';
+
+import Crawler from './crawler';
 import { CowtestAvaConnector, TestRunner } from './testRunner';
 import Reporter from './reporter';
 
-function Cowtest(seedUrl: string, tests: string, reporter: string | (() => mixed)) {
-  Crawler(seedUrl)
+function Cowtest(seedUrl: string, tests: string, reporter: string | (() => mixed)): any {
+  return Crawler(seedUrl)
     .then(urls => TestRunner(urls, CowtestAvaConnector, tests))
-    .then(testsResults => Reporter(seedUrl, testsResults, reporter))
-    .then(() => {
-      process.exit(0);
-    })
-    .catch((err) => {
-      console.log(err);
-      process.exit(1);
-    });
+    .then(testsResults => Reporter(seedUrl, testsResults, reporter));
 }
 
 export default Cowtest;

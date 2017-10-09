@@ -4,6 +4,7 @@
 ./src/**/*.js
 
 [libs]
+flow-typed/
 
 [options]
 
