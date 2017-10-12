@@ -1,11 +1,7 @@
 import fs from 'fs';
 import opn from 'opn';
 
-function CowtestHtmlReporter(
-  seedUrl,
-  testsResults,
-  outputDir,
-) {
+function CowtestHtmlReporter(seedUrl, testsResults, outputDir) {
   console.log(outputDir);
   return new Promise((resolve, reject) => {
     let html = `<h1>${seedUrl}</h1>`;

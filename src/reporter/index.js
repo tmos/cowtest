@@ -1,11 +1,7 @@
 import CowtestConsoleReporter from './CowtestConsoleReporter';
 import CowtestHtmlReporter from './CowtestHtmlReporter';
 
-function Reporter(
-  seedUrl,
-  testsResults,
-  reporter = 'console',
-) {
+function Reporter(seedUrl, testsResults, reporter = 'console') {
   return new Promise((resolve, reject) => {
     if (typeof reporter === 'string') {
       switch (reporter) {
