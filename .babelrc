@@ -2,9 +2,14 @@
   "presets": [
     ["env", {
       "targets": {
-        "node": "current"
+          "node": "current"
+        },
+        "modules": false
       }
-    }]
+    ]
   ],
-  "plugins": ["babel-plugin-transform-object-rest-spread"]
+  "plugins": [
+    "babel-plugin-transform-object-rest-spread",
+    "external-helpers"
+  ]
 }
