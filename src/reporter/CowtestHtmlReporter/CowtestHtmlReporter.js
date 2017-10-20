@@ -1,6 +1,12 @@
 import fs from 'fs';
 import opn from 'opn';
 
+/**
+ *
+ * @param {string} seedUrl : seed URL for the crawl. eg: http://example.org
+ * @param {object} testsResults : results from the testRunner
+ * @param {*} outputDir : absolute path for HTML generation
+ */
 function CowtestHtmlReporter(seedUrl, testsResults, outputDir) {
   console.log(outputDir);
   return new Promise((resolve, reject) => {

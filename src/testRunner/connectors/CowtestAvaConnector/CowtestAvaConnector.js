@@ -1,6 +1,12 @@
 import { spawn } from 'child_process';
 import Parser from 'tap-parser';
 
+/**
+ *
+ * @param {string} testsFileName : test file absolute path. eg: `${__dirname}/frontend-tests.js`
+ * @param {string} url : the current url.
+ * Used to be able to know on which page was executed the test.
+ */
 function CowtestAvaConnector(testsFileName, url) {
   return new Promise((resolve, reject) => {
     let res;

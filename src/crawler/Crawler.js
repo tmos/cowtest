@@ -8,7 +8,10 @@ function Page(url) {
     failledTests: [],
   };
 }
-
+/**
+ *
+ * @param {string} url : the base url to start the crawl
+ */
 function Crawler(url) {
   // todo: create a Crawler type
   const crawl = new DandyCrawl(url);
