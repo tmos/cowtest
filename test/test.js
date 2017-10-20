@@ -18,7 +18,6 @@ test('Page title should be "fake"', async (t) => {
     seedUrl,
     tests,
     reporter,
-    //  dataSaveMethod,
   );
 
   testsRes.map((pageTested) => {
