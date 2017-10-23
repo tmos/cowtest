@@ -1,3 +1,4 @@
-import CowtestNightmarejsConnector from './CowtestAvaConnector';
+import CowtestAvaConnector from './CowtestAvaConnector';
+import CowtestPythonConnector from './CowtestPythonConnector';
 
-export default CowtestNightmarejsConnector;
+export { CowtestAvaConnector, CowtestPythonConnector };
