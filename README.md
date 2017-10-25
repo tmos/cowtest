@@ -1,3 +1,3 @@
-# cowtest
+# Cowtest
 Complete Website Tester
 
