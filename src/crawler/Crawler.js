@@ -18,7 +18,7 @@ function Crawler(url) {
 
   return new Promise((resolve, reject) => {
     crawl
-      .exploreDomain()
+      .getSitemapUrls()
       .then(data => data.nodes.values.map(node => new Page(node.url)))
       .then(pages => resolve(pages))
       .catch(err => reject(err));

@@ -31,7 +31,7 @@
   "dependencies": {
     "ava": "^0.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "dandy-crawl": "^1.0.1",
+    "dandy-crawl": "^1.1.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.0",
     "gulp-eslint": "^4.0.0",
