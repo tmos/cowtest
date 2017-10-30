@@ -10,6 +10,7 @@ import Reporter from './reporter';
  * @param {string|function} reporter : How to report the test results. in [console, html]
  */
 function Cowtest(seedUrl, tests, connector, reporter) {
+  console.log('Starting...');
   return Crawler(seedUrl)
     .then(urls => TestRunner(urls, connector, tests))
     .then(testsResults => Reporter(seedUrl, testsResults, reporter));

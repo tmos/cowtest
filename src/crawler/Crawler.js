@@ -13,14 +13,16 @@ function Page(url) {
  * @param {string} url : the base url to start the crawl
  */
 function Crawler(url) {
-  // todo: create a Crawler type
-  const crawl = new DandyCrawl(url);
-
   return new Promise((resolve, reject) => {
+    console.log('Crawling...');
+    const crawl = new DandyCrawl(url);
     crawl
       .getSitemapUrls()
       .then(data => data.nodes.values.map(node => new Page(node.url)))
-      .then(pages => resolve(pages))
+      .then((pages) => {
+        console.log(`${pages.length} pages crawled`);
+        resolve(pages);
+      })
       .catch(err => reject(err));
   });
 }

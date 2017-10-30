@@ -9,6 +9,7 @@ import CowtestHtmlReporter from './CowtestHtmlReporter';
  */
 function Reporter(seedUrl, testsResults, reporter = 'console') {
   return new Promise((resolve, reject) => {
+    console.log('Reporting...');
     if (typeof reporter === 'string') {
       switch (reporter) {
         case 'html':

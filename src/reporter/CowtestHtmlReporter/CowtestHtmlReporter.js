@@ -22,18 +22,18 @@ function CowtestHtmlReporter(seedUrl, testsResults, outputDir) {
     // The failed tests
     const fails = testsResults.filter(el => el.fail > 0);
     if (fails.length > 0) {
-      html += '<h2>Failed pages</h2>';
+      html += `<h2>${fails.length} failed pages</h2>`;
       html += fails.map((testRes) => {
         let testHtml = '<h3>';
-        testHtml += `URL: ${testRes.url}`;
+        testHtml += `<a href="${testRes.url}" target="blank">${testRes.url}</a>`;
         testHtml += ` <small class="badge badge-secondary bg-warning">🔥 ${testRes.fail}</small>`;
         testHtml += '</h3>';
 
         // Each error
         testHtml += testRes.failures
           .map((fail) => {
-            const failuresHtml = `<div class="alert alert-danger" role="alert">${fail.name}</div>`;
-
+            let failuresHtml = `<div class="alert alert-danger" role="alert">${fail.name}</div>`;
+            failuresHtml += `<pre><code>${JSON.stringify(JSON.parse(fail.diag.message), undefined, 2)}</pre></code>`;
             return failuresHtml;
           })
           .join('');
@@ -59,7 +59,7 @@ function CowtestHtmlReporter(seedUrl, testsResults, outputDir) {
         reject(err);
       }
 
-      opn(outputDir);
+      opn(outputDir, { wait: false });
 
       resolve(true);
     });
