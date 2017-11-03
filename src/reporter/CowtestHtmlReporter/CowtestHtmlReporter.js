@@ -1,6 +1,16 @@
 import fs from 'fs';
 import opn from 'opn';
 import { header, footer } from './HtmlConstants';
+
+function escapeHtml(unsafe) {
+  return unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 /**
  *
  * @param {string} seedUrl : seed URL for the crawl. eg: http://example.org
@@ -33,7 +43,7 @@ function CowtestHtmlReporter(seedUrl, testsResults, outputDir) {
         testHtml += testRes.failures
           .map((fail) => {
             let failuresHtml = `<div class="alert alert-danger" role="alert">${fail.name}</div>`;
-            failuresHtml += `<pre><code>${JSON.stringify(JSON.parse(fail.diag.message), undefined, 2)}</code></pre>`;
+            failuresHtml += `<pre><code>${escapeHtml(JSON.stringify(JSON.parse(fail.diag.message), null, 2))}</code></pre>`;
             return failuresHtml;
           })
           .join('');
