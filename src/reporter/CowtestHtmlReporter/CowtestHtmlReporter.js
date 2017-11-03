@@ -33,7 +33,7 @@ function CowtestHtmlReporter(seedUrl, testsResults, outputDir) {
         testHtml += testRes.failures
           .map((fail) => {
             let failuresHtml = `<div class="alert alert-danger" role="alert">${fail.name}</div>`;
-            failuresHtml += `<pre><code>${JSON.stringify(JSON.parse(fail.diag.message), undefined, 2)}</pre></code>`;
+            failuresHtml += `<pre><code>${JSON.stringify(JSON.parse(fail.diag.message), undefined, 2)}</code></pre>`;
             return failuresHtml;
           })
           .join('');

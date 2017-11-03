@@ -4143,6 +4143,10 @@ p-map@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/p-map/-/p-map-1.2.0.tgz#e4e94f311eabbc8633a1e79908165fca26241b6b"
 
+p-queue@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/p-queue/-/p-queue-2.2.0.tgz#68de0ab1e73d9430760ecd99230c2d7d6deeaf94"
+
 p-timeout@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/p-timeout/-/p-timeout-1.2.0.tgz#9820f99434c5817868b4f34809ee5291660d5b6c"

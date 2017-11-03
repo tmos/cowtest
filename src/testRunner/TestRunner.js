@@ -1,3 +1,4 @@
+import PQueue from 'p-queue';
 import { CowtestAvaConnector, CowtestPythonConnector } from './connectors';
 
 /**
@@ -14,13 +15,13 @@ function TestRunner(urls, connector, testsFileName) {
     if (typeof connector === 'string') {
       switch (connector) {
         case 'ava':
-          testPromises = urls.map((doc) => {
+          testPromises = urls.map(doc => () => {
             console.log(`Testing ${doc.url}`);
             return CowtestAvaConnector(testsFileName, doc.url);
           });
           break;
         case 'python':
-          testPromises = urls.map((doc) => {
+          testPromises = urls.map(doc => () => {
             console.log(`Testing ${doc.url}`);
             return CowtestPythonConnector(testsFileName, doc.url);
           });
@@ -29,7 +30,7 @@ function TestRunner(urls, connector, testsFileName) {
           reject(new Error('Unknown connector name.'));
       }
     } else if (typeof reporter === 'function') {
-      testPromises = urls.map((doc) => {
+      testPromises = urls.map(doc => () => {
         console.log(`Testing ${doc.url}`);
         return connector(testsFileName, doc.url);
       });
@@ -37,7 +38,10 @@ function TestRunner(urls, connector, testsFileName) {
       reject(new Error('You should provide a valid connector.'));
     }
 
-    return Promise.all(testPromises)
+    const queue = new PQueue({ concurrency: 4 });
+    // Next line double single arrow function is to wrap the promise for p-queue
+    return queue
+      .addAll(testPromises)
       .then((values) => {
         resolve(values);
       })
