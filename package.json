@@ -20,7 +20,8 @@
     "lint": "./node_modules/.bin/eslint src",
     "lint-fix": "./node_modules/.bin/eslint src --fix",
     "prepublish": "npm run build",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "postinstall": "gulp"
   },
   "lint-staged": {
     "*.js": [

@@ -10,32 +10,28 @@ import { CowtestAvaConnector, CowtestPythonConnector } from './connectors';
 function TestRunner(urls, connector, testsFileName) {
   console.log('Testing...');
   return new Promise((resolve, reject) => {
+    const defaultConnectors = new Map();
+
+    defaultConnectors.set('ava', avaUrls => avaUrls.map(doc => () => {
+      console.log(`Testing ${doc.url}`);
+      return CowtestAvaConnector(testsFileName, doc.url);
+    }));
+    defaultConnectors.set('python', pythonUrls => pythonUrls.map(doc => () => {
+      console.log(`Testing ${doc.url}`);
+      return CowtestPythonConnector(testsFileName, doc.url);
+    }));
+
     let testPromises = [];
 
-    if (typeof connector === 'string') {
-      switch (connector) {
-        case 'ava':
-          testPromises = urls.map(doc => () => {
-            console.log(`Testing ${doc.url}`);
-            return CowtestAvaConnector(testsFileName, doc.url);
-          });
-          break;
-        case 'python':
-          testPromises = urls.map(doc => () => {
-            console.log(`Testing ${doc.url}`);
-            return CowtestPythonConnector(testsFileName, doc.url);
-          });
-          break;
-        default:
-          reject(new Error('Unknown connector name.'));
-      }
-    } else if (typeof reporter === 'function') {
+    if (defaultConnectors.has(connector)) {
+      testPromises = defaultConnectors.get(connector)(urls);
+    } else if (typeof connector === 'function') {
       testPromises = urls.map(doc => () => {
         console.log(`Testing ${doc.url}`);
         return connector(testsFileName, doc.url);
       });
     } else {
-      reject(new Error('You should provide a valid connector.'));
+      reject(new Error('Invalid connector.'));
     }
 
     const queue = new PQueue({ concurrency: 4 });
