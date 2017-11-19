@@ -1,19 +1,19 @@
-import Crawler from './crawler';
-import TestRunner from './testRunner';
-import Reporter from './reporter';
+import crawler from './crawler';
+import testRunner from './testRunner';
+import reporter from './reporter';
 
 /**
  *
  * @param {string} seedUrl : seed URL for the crawl. eg: http://example.org
  * @param {string} tests : absolute path to the test file. eg: `${__dirname}/frontend-tests.js`
  * @param {string|function} connector : TODO
- * @param {string|function} reporter : How to report the test results. in [console, html]
+ * @param {string|function} rep : How to report the test results. in [console, html]
  */
-function Cowtest(seedUrl, tests, connector, reporter) {
+function Cowtest(seedUrl, tests, connector, rep) {
   console.log('Starting...');
-  return Crawler(seedUrl)
-    .then(urls => TestRunner(urls, connector, tests))
-    .then(testsResults => Reporter(seedUrl, testsResults, reporter));
+  return crawler(seedUrl)
+    .then(urls => testRunner(urls, connector, tests))
+    .then(testsResults => reporter(seedUrl, testsResults, rep));
 }
 
 export default Cowtest;

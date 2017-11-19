@@ -13,12 +13,12 @@
   "author": "Tom Canac <contact@tomcanac.com> (http://tomcanac.com)",
   "scripts": {
     "test": "ava test/test.js",
-    "test-server": "./node_modules/.bin/http-server ./test/sample_website/",
+    "test-server": "http-server ./test/sample_website/",
     "build": "gulp build",
-    "watch": "gulp",
+    "dev": "gulp",
     "clean": "rm -rf dist/*",
-    "lint": "./node_modules/.bin/eslint src",
-    "lint-fix": "./node_modules/.bin/eslint src --fix",
+    "lint": "eslint src",
+    "lint-fix": "eslint src --fix",
     "prepublish": "npm run build",
     "precommit": "lint-staged",
     "postinstall": "gulp"
@@ -32,6 +32,7 @@
   "dependencies": {
     "ava": "^0.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "csv-write-stream": "^2.0.0",
     "dandy-crawl": "^1.1.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.0",

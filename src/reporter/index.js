@@ -1,3 +1,3 @@
-import Reporter from './Reporter';
+import reporter from './reporter';
 
-export default Reporter;
+export default reporter;

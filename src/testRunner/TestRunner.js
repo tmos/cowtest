@@ -1,4 +1,6 @@
 import PQueue from 'p-queue';
+import fs from 'fs';
+import csvWriter from 'csv-write-stream';
 import { CowtestAvaConnector, CowtestPythonConnector } from './connectors';
 
 /**
@@ -9,16 +11,25 @@ import { CowtestAvaConnector, CowtestPythonConnector } from './connectors';
  */
 function TestRunner(urls, connector, testsFileName) {
   console.log('Testing...');
+  const writer = csvWriter();
+  const path = `${__dirname}/out.csv`;
+  writer.pipe(fs.createWriteStream(path));
+  writer.end();
+
   return new Promise((resolve, reject) => {
     const defaultConnectors = new Map();
 
     defaultConnectors.set('ava', avaUrls => avaUrls.map(doc => () => {
       console.log(`Testing ${doc.url}`);
-      return CowtestAvaConnector(testsFileName, doc.url);
+      const testResults = CowtestAvaConnector(testsFileName, doc.url);
+      writer.write(testResults);
+      return testResults;
     }));
     defaultConnectors.set('python', pythonUrls => pythonUrls.map(doc => () => {
       console.log(`Testing ${doc.url}`);
-      return CowtestPythonConnector(testsFileName, doc.url);
+      const testResults = CowtestPythonConnector(testsFileName, doc.url);
+      writer.write(testResults);
+      return testResults;
     }));
 
     let testPromises = [];
@@ -28,7 +39,9 @@ function TestRunner(urls, connector, testsFileName) {
     } else if (typeof connector === 'function') {
       testPromises = urls.map(doc => () => {
         console.log(`Testing ${doc.url}`);
-        return connector(testsFileName, doc.url);
+        const testResults = connector(testsFileName, doc.url);
+        writer.write(testResults);
+        return testResults;
       });
     } else {
       reject(new Error('Invalid connector.'));

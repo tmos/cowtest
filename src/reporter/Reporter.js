@@ -1,5 +1,5 @@
-import CowtestConsoleReporter from './CowtestConsoleReporter';
-import CowtestHtmlReporter from './CowtestHtmlReporter';
+import cowtestConsoleReporter from './cowtestConsoleReporter';
+import cowtestHtmlReporter from './cowtestHtmlReporter';
 
 /**
  *
@@ -13,7 +13,7 @@ function Reporter(seedUrl, testsResults, reporter = 'console') {
     if (typeof reporter === 'string') {
       switch (reporter) {
         case 'html':
-          resolve(CowtestHtmlReporter(
+          resolve(cowtestHtmlReporter(
             seedUrl,
             testsResults,
             `${__dirname}/index.html`,
@@ -21,7 +21,7 @@ function Reporter(seedUrl, testsResults, reporter = 'console') {
           break;
 
         case 'console':
-          resolve(CowtestConsoleReporter(testsResults));
+          resolve(cowtestConsoleReporter(testsResults));
           break;
 
         default:
