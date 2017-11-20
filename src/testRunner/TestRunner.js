@@ -3,6 +3,16 @@ import fs from 'fs';
 import csvWriter from 'csv-write-stream';
 import { CowtestAvaConnector, CowtestPythonConnector } from './connectors';
 
+
+function formatForCSV(testResults) {
+  console.log(JSON.stringify(testResults));
+  return {
+    'Tested URL': testResults.url,
+    'Test status': testResults.ok,
+    'Failed tests': testResults.failures.map(failure => failure.name),
+    'Failure details': testResults.failures.map(failure => failure.diag.message),
+  };
+}
 /**
  *
  * @param {Array<Page>} urls : output from the crawler.
@@ -10,24 +20,24 @@ import { CowtestAvaConnector, CowtestPythonConnector } from './connectors';
  * @param {string} testsFileName : test file absolute path. eg: `${__dirname}/frontend-tests.js`
  */
 function TestRunner(urls, connector, testsFileName) {
-  console.log('Testing...');
   const writer = csvWriter();
   const path = `${__dirname}/out.csv`;
   writer.pipe(fs.createWriteStream(path));
-  writer.end();
+
+  console.log('Testing...');
 
   return new Promise((resolve, reject) => {
     const defaultConnectors = new Map();
 
-    defaultConnectors.set('ava', avaUrls => avaUrls.map(doc => () => {
+    defaultConnectors.set('ava', avaUrls => avaUrls.map(doc => async () => {
       console.log(`Testing ${doc.url}`);
-      const testResults = CowtestAvaConnector(testsFileName, doc.url);
-      writer.write(testResults);
+      const testResults = await CowtestAvaConnector(testsFileName, doc.url);
+      writer.write(formatForCSV(testResults));
       return testResults;
     }));
-    defaultConnectors.set('python', pythonUrls => pythonUrls.map(doc => () => {
+    defaultConnectors.set('python', pythonUrls => pythonUrls.map(doc => async () => {
       console.log(`Testing ${doc.url}`);
-      const testResults = CowtestPythonConnector(testsFileName, doc.url);
+      const testResults = await CowtestPythonConnector(testsFileName, doc.url);
       writer.write(testResults);
       return testResults;
     }));
@@ -37,10 +47,10 @@ function TestRunner(urls, connector, testsFileName) {
     if (defaultConnectors.has(connector)) {
       testPromises = defaultConnectors.get(connector)(urls);
     } else if (typeof connector === 'function') {
-      testPromises = urls.map(doc => () => {
+      testPromises = urls.map(doc => async () => {
         console.log(`Testing ${doc.url}`);
-        const testResults = connector(testsFileName, doc.url);
-        writer.write(testResults);
+        const testResults = await connector(testsFileName, doc.url);
+        writer.write(formatForCSV(testResults));
         return testResults;
       });
     } else {
