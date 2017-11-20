@@ -3,9 +3,7 @@ import fs from 'fs';
 import csvWriter from 'csv-write-stream';
 import { CowtestAvaConnector, CowtestPythonConnector } from './connectors';
 
-
 function formatForCSV(testResults) {
-  console.log(JSON.stringify(testResults));
   return {
     'Tested URL': testResults.url,
     'Test status': testResults.ok,
@@ -13,6 +11,7 @@ function formatForCSV(testResults) {
     'Failure details': testResults.failures.map(failure => failure.diag.message),
   };
 }
+
 /**
  *
  * @param {Array<Page>} urls : output from the crawler.
@@ -33,13 +32,13 @@ function TestRunner(urls, connector, testsFileName) {
       console.log(`Testing ${doc.url}`);
       const testResults = await CowtestAvaConnector(testsFileName, doc.url);
       writer.write(formatForCSV(testResults));
-      return testResults;
+      return testResults === false;
     }));
     defaultConnectors.set('python', pythonUrls => pythonUrls.map(doc => async () => {
       console.log(`Testing ${doc.url}`);
       const testResults = await CowtestPythonConnector(testsFileName, doc.url);
       writer.write(testResults);
-      return testResults;
+      return testResults === false;
     }));
 
     let testPromises = [];
@@ -51,13 +50,13 @@ function TestRunner(urls, connector, testsFileName) {
         console.log(`Testing ${doc.url}`);
         const testResults = await connector(testsFileName, doc.url);
         writer.write(formatForCSV(testResults));
-        return testResults;
+        return testResults === false;
       });
     } else {
       reject(new Error('Invalid connector.'));
     }
 
-    const queue = new PQueue({ concurrency: 4 });
+    const queue = new PQueue({ concurrency: 25 });
     // Next line double single arrow function is to wrap the promise for p-queue
     return queue
       .addAll(testPromises)
