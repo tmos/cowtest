@@ -1,7 +1,7 @@
 import test from 'ava';
 import Cowtest from './../dist';
 
-const seedUrl = 'http://127.0.0.1:8080';
+const seedUrl = 'http://127.0.0.1:8080/';
 const tests = `${__dirname}/testSource.js`;
 const connector = 'ava';
 

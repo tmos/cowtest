@@ -1,16 +1,5 @@
 import PQueue from 'p-queue';
-import fs from 'fs';
-import csvWriter from 'csv-write-stream';
 import { CowtestAvaConnector, CowtestPythonConnector } from './connectors';
-
-function formatForCSV(testResults) {
-  return {
-    'Tested URL': testResults.url,
-    'Test status': testResults.ok,
-    'Failed tests': testResults.failures.map(failure => failure.name),
-    'Failure details': testResults.failures.map(failure => failure.diag.message),
-  };
-}
 
 /**
  *
@@ -18,11 +7,7 @@ function formatForCSV(testResults) {
  * @param {*} connector : TODO
  * @param {string} testsFileName : test file absolute path. eg: `${__dirname}/frontend-tests.js`
  */
-function TestRunner(urls, connector, testsFileName) {
-  const writer = csvWriter();
-  const path = `${__dirname}/out.csv`;
-  writer.pipe(fs.createWriteStream(path));
-
+function TestRunner(urls, connector, testsFileName, dataManager) {
   console.log('Testing...');
 
   return new Promise((resolve, reject) => {
@@ -31,14 +16,14 @@ function TestRunner(urls, connector, testsFileName) {
     defaultConnectors.set('ava', avaUrls => avaUrls.map(doc => async () => {
       console.log(`Testing ${doc.url}`);
       const testResults = await CowtestAvaConnector(testsFileName, doc.url);
-      writer.write(formatForCSV(testResults));
-      return testResults === false;
+      dataManager.write('testRunner', testResults);
+      return testResults.ok === true;
     }));
     defaultConnectors.set('python', pythonUrls => pythonUrls.map(doc => async () => {
       console.log(`Testing ${doc.url}`);
       const testResults = await CowtestPythonConnector(testsFileName, doc.url);
-      writer.write(testResults);
-      return testResults === false;
+      dataManager.write('testRunner', testResults);
+      return testResults.ok === true;
     }));
 
     let testPromises = [];
@@ -49,8 +34,8 @@ function TestRunner(urls, connector, testsFileName) {
       testPromises = urls.map(doc => async () => {
         console.log(`Testing ${doc.url}`);
         const testResults = await connector(testsFileName, doc.url);
-        writer.write(formatForCSV(testResults));
-        return testResults === false;
+        dataManager.write('testRunner', testResults);
+        return testResults.ok === true;
       });
     } else {
       reject(new Error('Invalid connector.'));
@@ -60,8 +45,9 @@ function TestRunner(urls, connector, testsFileName) {
     // Next line double single arrow function is to wrap the promise for p-queue
     return queue
       .addAll(testPromises)
-      .then((values) => {
-        resolve(values);
+      .then((testResults) => {
+        dataManager.close('testRunner');
+        resolve(testResults);
       })
       .catch(error => reject(error));
   });
