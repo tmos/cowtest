@@ -1,6 +1,7 @@
 import fs from 'fs';
 import opn from 'opn';
 import { header, footer } from './HtmlConstants';
+import { errors, fileNames } from './../../const';
 
 function escapeHtml(unsafe) {
   return unsafe
@@ -11,29 +12,21 @@ function escapeHtml(unsafe) {
     .replace(/'/g, '&#039;');
 }
 
-/**
- *
- * @param {string} seedUrl : seed URL for the crawl. eg: http://example.org
- * @param {object} testsResults : results from the testRunner
- * @param {*} outputDir : absolute path for HTML generation
- */
-function CowtestHtmlReporter(seedUrl, testsResults, outputDir) {
-  console.log(outputDir);
-  return new Promise((resolve, reject) => {
-    // HTML page init
+function buildHtml(seedUrl, testsResults) {
+  let html = header;
+  html +=
+    '<nav class="navbar navbar-expand-lg navbar-light bg-light"><div class=container><span class="navbar-brand mb-0 h1">';
+  html += `🐮❓: ${seedUrl}`;
+  html += '</span></div></nav>';
 
-    let html = header;
-    html += '<nav class="navbar navbar-expand-lg navbar-light bg-light"><div class=container><span class="navbar-brand mb-0 h1">';
-    html += `🐮❓: ${seedUrl}`;
-    html += '</span></div></nav>';
+  html += '<div class=container>';
 
-    html += '<div class=container>';
-
-    // The failed tests
-    const fails = testsResults.filter(el => el.fail > 0);
-    if (fails.length > 0) {
-      html += `<h2>${fails.length} failed pages</h2>`;
-      html += fails.map((testRes) => {
+  // The failed tests
+  const fails = testsResults.filter(el => el.fail > 0);
+  if (fails.length > 0) {
+    html += `<h2>${fails.length} failed pages</h2>`;
+    html += fails
+      .map((testRes) => {
         let testHtml = '<h3>';
         testHtml += `<a href="${testRes.url}" target="blank">${testRes.url}</a>`;
         testHtml += ` <small class="badge badge-secondary bg-warning">🔥 ${testRes.fail}</small>`;
@@ -49,30 +42,60 @@ function CowtestHtmlReporter(seedUrl, testsResults, outputDir) {
           .join('');
 
         return testHtml;
-      }).join('');
-    }
+      })
+      .join('');
+  }
 
-    // The success
-    const success = testsResults.filter(el => el.pass === el.count);
-    if (success.length > 0) {
-      html += '<h2>Successfull pages</h2>';
-      html += '<ul>';
-      html += success.map(testRes => `<li>${testRes.url}</li>`).join('');
-      html += '</ul>';
-    }
+  // The success
+  const success = testsResults.filter(el => el.pass === el.count);
+  if (success.length > 0) {
+    html += '<h2>Successfull pages</h2>';
+    html += '<ul>';
+    html += success.map(testRes => `<li>${testRes.url}</li>`).join('');
+    html += '</ul>';
+  }
 
-    html += '</div>';
-    html += footer;
+  html += '</div>';
+  html += footer;
 
-    fs.writeFile(outputDir, html, (err) => {
-      if (err) {
-        reject(err);
-      }
+  return html;
+}
 
-      opn(outputDir, { wait: false });
+/**
+ *
+ * @param {string} seedUrl : seed URL for the crawl. eg: http://example.org
+ * @param {object} testsResults : results from the testRunner
+ * @param {*} outputDir : absolute path for HTML generation
+ */
+async function CowtestHtmlReporter(seedUrl, datam, outputDir) {
+  console.log(outputDir);
 
-      resolve(true);
+  function getUrls() {
+    return new Promise((resolve, reject) => {
+      let lines = [];
+
+      datam
+        .read(fileNames.testRunnerStorageWithExt)
+        .on('data', (rawLine) => {
+          const parsedLines = rawLine.toString().split('\n');
+          parsedLines.pop();
+          lines =
+            lines.concat(parsedLines.map(line => JSON.parse(line.toString())));
+        })
+        .on('end', () => resolve(lines))
+        .on('error', () => reject(errors.testResultsStreamReadError));
     });
+  }
+
+  const testResults = await getUrls();
+  const html = buildHtml(seedUrl, testResults);
+
+  fs.writeFile(outputDir, html, (err) => {
+    if (err) {
+      throw errors.htmlOutputWritingError;
+    }
+
+    opn(outputDir, { wait: false });
   });
 }
 

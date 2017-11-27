@@ -19,7 +19,7 @@ const errors = {
   optionInvalidReporter: new Error(`Options error: ${invalidValue('reporter', ['html', 'console'])}`),
   testResultsStreamReadError: new Error('Error while loading the test results file stream.'),
   crawlerStreamReadError: new Error('Error while loading the crawler results file stream.'),
-
+  htmlOutputWritingError: new Error('Error while writing the reporter html output.'),
 };
 const fileNames = {
   crawlerStorage: 'crawler',

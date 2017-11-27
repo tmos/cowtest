@@ -6,8 +6,12 @@ import { fileNames, errors } from './../const';
  */
 function CowtestConsoleReporter(datam) {
   return new Promise((resolve, reject) => {
-    datam.read(fileNames.crawlerStorageWithExt)
-      .on('data', line => console.log(JSON.stringify(line.toString())))
+    datam.read(fileNames.testRunnerStorageWithExt)
+      .on('data', (rawLine) => {
+        const parsedLines = rawLine.toString().split('\n');
+        parsedLines.pop();
+        parsedLines.map(line => console.log(JSON.parse(line.toString())));
+      })
       .on('end', () => resolve(true))
       .on('error', () => reject(errors.testResultsStreamReadError));
   });

@@ -10,7 +10,7 @@ import { errors } from './../const';
  */
 function Reporter(seedUrl, reporter, datam) {
   return new Promise((resolve, reject) => {
-    console.log('Reporting...');
+    console.log(`Reporting... [${reporter}]`);
     if (typeof reporter === 'string') {
       switch (reporter) {
         case 'html':
