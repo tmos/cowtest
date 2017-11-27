@@ -42,12 +42,12 @@ function TestRunner(urls, connector, testsFileName, dataManager) {
     }
 
     const queue = new PQueue({ concurrency: 25 });
-    // Next line double single arrow function is to wrap the promise for p-queue
     return queue
       .addAll(testPromises)
       .then((testResults) => {
+        console.log(testResults);
         dataManager.close('testRunner');
-        resolve(testResults);
+        resolve();
       })
       .catch(error => reject(error));
   });

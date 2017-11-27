@@ -2,6 +2,8 @@ import crawler from './crawler';
 import testRunner from './testRunner';
 import reporter from './reporter';
 import DataManager from './DataManager';
+import { errors } from './const';
+
 /**
  *
  * @param {string} seedUrl : seed URL for the crawl. eg: http://example.org
@@ -21,42 +23,42 @@ function Cowtest(opts) {
   };
 
   if (seedUrl === undefined) {
-    throw Error('Options error: you should pass a valid URL');
+    throw errors.optionUndefinedSeedUrl;
   }
   if (tests === undefined) {
-    throw Error('Options error: you should provide a test file name');
+    throw errors.optionUndefinedTestFileName;
   }
   if (connector === undefined) {
-    throw Error('Options error: you should provide a test file name');
+    throw errors.undefinedConnector;
   }
   if (typeof connector === 'function' || typeof connector === 'string') {
     if (
       typeof connector === 'string' &&
       ['ava', 'python'].indexOf(connector) === -1
     ) {
-      throw new Error('Options error: available built-in connectors are : ava, python');
+      throw errors.optionInvalidConnector;
     }
   }
   if (
     typeof dataSaveMethod === 'object' &&
     ['mongodb', 'jsonl'].indexOf(dataSaveMethod.method) === -1
   ) {
-    throw new Error('Options error: available data storage are: mongodb, jsonl');
+    throw errors.optionInvalidStorage;
   }
   if (
     typeof report !== 'string' ||
     ['console', 'html'].indexOf(report) === -1
   ) {
-    throw new Error('Options error: available built-in connectors are : html, console');
+    throw errors.optionInvalidReporter;
   }
 
   const datam = new DataManager(dataSaveMethod.method, dataSaveMethod.coStr);
 
   console.log('Starting...');
   console.log(seedUrl);
-  return crawler(seedUrl)
-    .then(urls => testRunner(urls, connector, tests, datam))
-    .then(testResults => reporter(seedUrl, testResults, report))
+  return crawler(seedUrl, datam)
+    .then(() => testRunner(connector, tests, datam))
+    .then(() => reporter(seedUrl, report, datam))
     .catch((err) => {
       console.log(err);
     });

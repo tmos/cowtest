@@ -1,16 +1,15 @@
+import { fileNames, errors } from './../const';
+
 /**
  *
- * @param {object} testsResults : results from the testRunner
+ * @param {object} datam : results from the testRunner
  */
-function CowtestConsoleReporter(testsResults) {
+function CowtestConsoleReporter(datam) {
   return new Promise((resolve, reject) => {
-    if (!testsResults) {
-      reject(new Error('No tests results provided'));
-    }
-
-    console.log(JSON.stringify(testsResults));
-
-    resolve(true);
+    datam.read(fileNames.crawlerStorageWithExt)
+      .on('data', line => console.log(JSON.stringify(line.toString())))
+      .on('end', () => resolve(true))
+      .on('error', () => reject(errors.testResultsStreamReadError));
   });
 }
 

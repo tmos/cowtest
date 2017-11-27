@@ -1,13 +1,14 @@
 import cowtestConsoleReporter from './cowtestConsoleReporter';
 import cowtestHtmlReporter from './cowtestHtmlReporter';
+import { errors } from './../const';
 
 /**
  *
  * @param {string} seedUrl : seed URL for the crawl. eg: http://example.org
- * @param {object} testsResults : results from the testRunner
+ * @param {object} datam : results from the testRunner
  * @param {string|function} reporter : How to report the test results. in [console, html]
  */
-function Reporter(seedUrl, testsResults, reporter = 'console') {
+function Reporter(seedUrl, reporter, datam) {
   return new Promise((resolve, reject) => {
     console.log('Reporting...');
     if (typeof reporter === 'string') {
@@ -15,22 +16,22 @@ function Reporter(seedUrl, testsResults, reporter = 'console') {
         case 'html':
           resolve(cowtestHtmlReporter(
             seedUrl,
-            testsResults,
+            datam,
             `${__dirname}/index.html`,
           ));
           break;
 
         case 'console':
-          resolve(cowtestConsoleReporter(testsResults));
+          resolve(cowtestConsoleReporter(datam));
           break;
 
         default:
-          reject(new Error('Unknown reporter type.'));
+          reject(errors.optionInvalidReporter);
       }
     } else if (typeof reporter === 'function') {
-      resolve(reporter(testsResults));
+      resolve(reporter(datam));
     } else {
-      reject(new Error('You should provide a valid reporter.'));
+      reject(errors.invalidReporter);
     }
   });
 }

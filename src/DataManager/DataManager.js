@@ -1,5 +1,6 @@
 import fs from 'fs';
 import JsonlFile from 'jsonl-file';
+import { fileNames } from './../const';
 // import { MongoClient } from 'mongodb';
 
 class DataManager {
@@ -9,8 +10,8 @@ class DataManager {
 
     if (this.method === 'jsonl') {
       this.fileStreams = {
-        crawler: new JsonlFile(`${this.coStr}crawler.jsonl`),
-        testRunner: new JsonlFile(`${this.coStr}testRunner.jsonl`),
+        crawler: new JsonlFile(fileNames.crawlerStorageWithExt),
+        testRunner: new JsonlFile(fileNames.testRunnerStorageWithExt),
       };
     } else if (this.method === 'mongodb') {
       // todo
@@ -25,10 +26,10 @@ class DataManager {
     }
   }
 
-  get(source) {
+  read(source) {
     let stream;
     if (this.method === 'jsonl') {
-      stream = fs.createReadStream(`${this.coStr}${source}`);
+      stream = fs.createReadStream(`${source}`);
     } else if (this.method === 'mongodb') {
       // todo
     }
