@@ -18,6 +18,7 @@ const errors = {
   optionInvalidStorage: new Error(`Options error: ${invalidValue('storage', ['mongodb', 'jsonl'])}`),
   optionInvalidReporter: new Error(`Options error: ${invalidValue('reporter', ['html', 'console'])}`),
   testResultsStreamReadError: new Error('Error while loading the test results file stream.'),
+  crawlerStreamReadError: new Error('Error while loading the crawler results file stream.'),
 
 };
 const fileNames = {

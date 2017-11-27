@@ -11,7 +11,7 @@ function Crawler(url, datam) {
     crawl
       .getSitemapUrls()
       .then(data => data.nodes.values.map((node) => {
-        datam.write('crawler', node.url);
+        datam.write('crawler', { url: node.url });
         return 1;
       }).length)
       .then((pagesCount) => {
