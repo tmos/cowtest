@@ -32,7 +32,6 @@
   "dependencies": {
     "ava": "^0.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "csv-write-stream": "^2.0.0",
     "dandy-crawl": "^1.1.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.0",
@@ -41,8 +40,6 @@
     "gulp-sourcemaps": "^2.6.1",
     "http-server": "^0.10.0",
     "jsonl-file": "^1.0.0",
-    "mongodb": "^2.2.31",
-    "nightmare": "^2.10.0",
     "opn": "^5.1.0",
     "p-queue": "^2.2.0",
     "tap-parser": "^6.0.1"

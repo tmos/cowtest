@@ -75,7 +75,7 @@ function TestRunner(connector, testsFileName, datam) {
 
   return new Promise(async (resolve, reject) => {
     const testPromises = await preparePromises(connector);
-    const queue = new PQueue({ concurrency: 25 });
+    const queue = new PQueue({ concurrency: 250 });
     return queue
       .addAll(testPromises)
       .then((testResults) => {
